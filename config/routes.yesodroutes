@@ -8,3 +8,7 @@
 
 -- Status da API
 / HomeR GET
+
+-- Cursos (CRUD)
+/cursos            CursosR GET POST
+/cursos/#CursoId   CursoR  GET PUT DELETE
