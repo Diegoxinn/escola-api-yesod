@@ -1,18 +1,56 @@
--- By default this file is used by `persistFileWith` in Model.hs (which is imported by Foundation.hs)
--- Syntax for this file here: https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md
+-- Modelos do banco de dados (tema: Escola).
+-- Cada bloco vira uma tabela no SQLite e um tipo em Haskell.
+-- "json" gera automaticamente a conversão de/para JSON (ToJSON/FromJSON).
+-- Campos do tipo XxxId são chaves estrangeiras para a tabela Xxx.
+-- Sintaxe: https://github.com/yesodweb/persistent/blob/master/docs/Persistent-entity-syntax.md
 
-User
-    ident Text
-    password Text Maybe
-    UniqueUser ident
-    deriving Typeable
-Email
+Curso json
+    nome Text
+    descricao Text Maybe
+    cargaHoraria Int
+    UniqueCursoNome nome
+    deriving Show
+
+Professor json
+    nome Text
     email Text
-    userId UserId Maybe
-    verkey Text Maybe
-    UniqueEmail email
-Comment json -- Adding "json" causes ToJSON and FromJSON instances to be derived.
-    message Text
-    userId UserId Maybe
-    deriving Eq
+    especialidade Text
+    UniqueProfessorEmail email
+    deriving Show
+
+Disciplina json
+    nome Text
+    cargaHoraria Int
+    cursoId CursoId
+    deriving Show
+
+Turma json
+    codigo Text
+    semestre Text
+    disciplinaId DisciplinaId
+    professorId ProfessorId
+    UniqueTurmaCodigo codigo
+    deriving Show
+
+Aluno json
+    nome Text
+    email Text
+    ra Text
+    dataNascimento Day
+    cursoId CursoId
+    UniqueAlunoEmail email
+    UniqueAlunoRa ra
+    deriving Show
+
+Matricula json
+    alunoId AlunoId OnDeleteCascade
+    turmaId TurmaId OnDeleteCascade
+    dataMatricula Day
+    UniqueMatricula alunoId turmaId
+    deriving Show
+
+Nota json
+    matriculaId MatriculaId OnDeleteCascade
+    descricao Text
+    valor Double
     deriving Show
