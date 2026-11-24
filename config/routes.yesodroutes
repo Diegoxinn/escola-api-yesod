@@ -12,3 +12,7 @@
 -- Cursos (CRUD)
 /cursos            CursosR GET POST
 /cursos/#CursoId   CursoR  GET PUT DELETE
+
+-- Alunos
+/alunos            AlunosR GET POST
+/alunos/#AlunoId   AlunoR  GET PUT DELETE
