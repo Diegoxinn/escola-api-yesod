@@ -7,15 +7,14 @@
 ```
 
 Projeto final da disciplina de **Haskell (P2)**: uma API REST para gestão escolar,
-com cursos, professores, disciplinas, turmas, alunos, matrículas e notas.
-Não tem frontend nem autenticação: tudo entra e sai em **JSON**.
+com cursos, professores, disciplinas, turmas, alunos, matrículas e notas. Testada no Postman!
 
 ## Equipe
 
 - Kaue de Oliveira
 - Diego Ferreira
 - Gabrielle Almeida
-- Wllington Junior
+- Wellington Junior
 
 ## Como rodar
 
