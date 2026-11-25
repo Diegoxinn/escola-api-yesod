@@ -16,3 +16,9 @@
 -- Alunos
 /alunos            AlunosR GET POST
 /alunos/#AlunoId   AlunoR  GET PUT DELETE
+
+-- Matriculas
+/matriculas                     MatriculasR       GET POST
+/matriculas/#MatriculaId        MatriculaR        GET PUT DELETE
+/alunos/#AlunoId/matriculas     AlunoMatriculasR  GET
+/turmas/#TurmaId/matriculas     TurmaMatriculasR  GET
