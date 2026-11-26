@@ -20,3 +20,7 @@
 -- Disciplinas (CRUD)
 /disciplinas                DisciplinasR GET POST
 /disciplinas/#DisciplinaId  DisciplinaR  GET PUT DELETE
+
+-- Turmas (CRUD)
+/turmas            TurmasR GET POST
+/turmas/#TurmaId   TurmaR  GET PUT DELETE
