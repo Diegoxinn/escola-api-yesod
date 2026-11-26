@@ -1,0 +1,6 @@
+$kind: http-request
+name: http://localhost:3000/cep/01001000
+description: ""
+url: http://localhost:3000/cep/01001000
+method: GET
+order: 1000

@@ -12,3 +12,6 @@
 -- Cursos (CRUD)
 /cursos            CursosR GET POST
 /cursos/#CursoId   CursoR  GET PUT DELETE
+
+-- Consulta de CEP na API externa ViaCEP
+/cep/#Text   CepR   GET
