@@ -43,6 +43,9 @@ import System.Log.FastLogger                (defaultBufSize, newStdoutLoggerSet,
 import Handler.Common
 import Handler.Home
 import Handler.Curso
+import Handler.Aluno
+import Handler.Matricula
+import Handler.Nota
 import Handler.Professor
 import Handler.Disciplina
 import Handler.Turma
