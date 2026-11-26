@@ -28,3 +28,15 @@
 /notas/#NotaId                  NotaR             GET PUT DELETE
 /matriculas/#MatriculaId/notas  MatriculaNotasR   GET
 /alunos/#AlunoId/boletim        AlunoBoletimR     GET
+
+-- Professores (CRUD)
+/professores            ProfessoresR GET POST
+/professores/#ProfessorId ProfessorR  GET PUT DELETE
+
+-- Disciplinas (CRUD)
+/disciplinas                DisciplinasR GET POST
+/disciplinas/#DisciplinaId  DisciplinaR  GET PUT DELETE
+
+-- Turmas (CRUD)
+/turmas            TurmasR GET POST
+/turmas/#TurmaId   TurmaR  GET PUT DELETE
