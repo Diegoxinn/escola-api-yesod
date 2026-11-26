@@ -66,10 +66,53 @@ validarProfessor professor = do
             [ "O email do professor é obrigatório"
             | T.null (T.strip (professorEmail professor)) ]
             ++
+            [ "O email do professor não possui um formato válido"
+            | not (T.null (T.strip (professorEmail professor)))
+            , not (emailValido (professorEmail professor)) ]
+            ++
             [ "A especialidade do professor é obrigatória"
             | T.null (T.strip (professorEspecialidade professor)) ]
     unless (null erros) $
         sendStatusJSON status400 (object ["erros" .= erros])
+
+emailValido :: Text -> Bool
+emailValido email =
+    let (parteLocal, sufixo) = T.breakOn "@" email
+        dominio = T.drop 1 sufixo
+        etiquetas = T.splitOn "." dominio
+    in T.length email <= 254
+        && T.count "@" email == 1
+        && not (T.null sufixo)
+        && T.length parteLocal <= 64
+        && not (T.null parteLocal)
+        && not (T.isPrefixOf "." parteLocal)
+        && not (T.isSuffixOf "." parteLocal)
+        && not (T.isInfixOf ".." parteLocal)
+        && T.all caractereLocal parteLocal
+        && length etiquetas >= 2
+        && all etiquetaValida etiquetas
+
+caractereLocal :: Char -> Bool
+caractereLocal caractere =
+    caractere >= 'a' && caractere <= 'z'
+        || caractere >= 'A' && caractere <= 'Z'
+        || caractere >= '0' && caractere <= '9'
+        || caractere `elem` ("!#$%&'*+-/=?^_`{|}~." :: String)
+
+etiquetaValida :: Text -> Bool
+etiquetaValida etiqueta =
+    not (T.null etiqueta)
+        && T.length etiqueta <= 63
+        && not (T.isPrefixOf "-" etiqueta)
+        && not (T.isSuffixOf "-" etiqueta)
+        && T.all caractereDominio etiqueta
+
+caractereDominio :: Char -> Bool
+caractereDominio caractere =
+    caractere >= 'a' && caractere <= 'z'
+        || caractere >= 'A' && caractere <= 'Z'
+        || caractere >= '0' && caractere <= '9'
+        || caractere == '-'
 
 -- | Responde com um erro em JSON: {"erro": "..."}.
 erro :: Status -> Text -> Handler a

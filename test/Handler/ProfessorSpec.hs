@@ -39,6 +39,24 @@ spec = withApp $ do
                 ]
             statusIs 400
 
+        it "POST /professores rejeita emails malformados" $ do
+            forM_ ["sem-arroba", "ana@", "ana@escola", "ana@@escola.com"] $
+                \email -> do
+                    enviarJson "POST" ProfessoresR $ object
+                        [ "nome" .= ("Ana Souza" :: Text)
+                        , "email" .= (email :: Text)
+                        , "especialidade" .= ("Matemática" :: Text)
+                        ]
+                    statusIs 400
+
+        it "POST /professores aceita email com subdomínio e alias" $ do
+            enviarJson "POST" ProfessoresR $ object
+                [ "nome" .= ("Ana Souza" :: Text)
+                , "email" .= ("ana.souza+prof@dept.escola.com" :: Text)
+                , "especialidade" .= ("Matemática" :: Text)
+                ]
+            statusIs 201
+
         it "POST /professores com email repetido retorna 409" $ do
             enviarJson "POST" ProfessoresR professorValido
             enviarJson "POST" ProfessoresR professorValido
