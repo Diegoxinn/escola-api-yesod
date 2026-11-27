@@ -20,3 +20,7 @@ cabal.sandbox.config
 *~
 \#*
 meu-projeto.cabal
+# Arquivos de sincronização local do Postman
+.postman/
+postman/collections/
+postman/globals/

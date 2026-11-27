@@ -1,0 +1,1613 @@
+{
+  "info": {
+    "_postman_id": "ec970b41-8c82-49bc-a575-d1787822a3ed",
+    "name": "Escola API - Yesod",
+    "description": "Demonstração da API do projeto final (Yesod + SQLite).\n\nAntes de usar: deixe a API rodando com `stack exec -- yesod devel`.\n\nRode as pastas em ordem (ou tudo pelo Collection Runner). Os ids criados ficam salvos nas variáveis da coleção, e o `sufixo` evita conflito de e-mail/RA/código ao rodar mais de uma vez.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "sufixo",
+      "value": ""
+    },
+    {
+      "key": "cursoId",
+      "value": ""
+    },
+    {
+      "key": "professorId",
+      "value": ""
+    },
+    {
+      "key": "disciplinaId",
+      "value": ""
+    },
+    {
+      "key": "turmaId",
+      "value": ""
+    },
+    {
+      "key": "alunoId",
+      "value": ""
+    },
+    {
+      "key": "matriculaId",
+      "value": ""
+    },
+    {
+      "key": "notaId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Status",
+      "description": "",
+      "item": [
+        {
+          "name": "Status da API",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Gera um sufixo novo a cada demonstração (evita e-mail/RA/código repetidos)",
+                  "pm.collectionVariables.set(\"sufixo\", Date.now().toString().slice(-6));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Cursos",
+      "description": "",
+      "item": [
+        {
+          "name": "Cadastrar curso (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"cursoId\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cursos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Sistemas para Internet {{sufixo}}\",\n  \"descricao\": \"Curso superior de tecnologia\",\n  \"cargaHoraria\": 3200\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar cursos (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cursos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar curso (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cursos/{{cursoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cursos",
+                "{{cursoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Alterar curso (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cursos/{{cursoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cursos",
+                "{{cursoId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Sistemas para Internet {{sufixo}}\",\n  \"descricao\": \"Curso atualizado\",\n  \"cargaHoraria\": 2800\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Cadastrar curso inválido (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cursos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cursos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"\",\n  \"cargaHoraria\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Professores",
+      "description": "",
+      "item": [
+        {
+          "name": "Cadastrar professor (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"professorId\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/professores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "professores"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Carlos Lima\",\n  \"email\": \"carlos{{sufixo}}@escola.com\",\n  \"especialidade\": \"Programação Funcional\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar professores (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/professores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "professores"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cadastrar professor com e-mail inválido (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/professores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "professores"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Sem Email\",\n  \"email\": \"email-invalido\",\n  \"especialidade\": \"Banco de Dados\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Disciplinas",
+      "description": "",
+      "item": [
+        {
+          "name": "Cadastrar disciplina (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"disciplinaId\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/disciplinas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "disciplinas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Desenvolvimento Web com Haskell\",\n  \"cargaHoraria\": 80,\n  \"cursoId\": {{cursoId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar disciplinas (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/disciplinas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "disciplinas"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Turmas",
+      "description": "",
+      "item": [
+        {
+          "name": "Cadastrar turma (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"turmaId\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/turmas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turmas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"HASK-{{sufixo}}\",\n  \"semestre\": \"2026.2\",\n  \"disciplinaId\": {{disciplinaId}},\n  \"professorId\": {{professorId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Buscar turma (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/turmas/{{turmaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turmas",
+                "{{turmaId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Alunos",
+      "description": "",
+      "item": [
+        {
+          "name": "Cadastrar aluno (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"alunoId\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alunos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Ana Souza\",\n  \"email\": \"ana{{sufixo}}@email.com\",\n  \"ra\": \"RA{{sufixo}}\",\n  \"dataNascimento\": \"2004-05-10\",\n  \"cursoId\": {{cursoId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar alunos do curso (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos?cursoId={{cursoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos"
+              ],
+              "query": [
+                {
+                  "key": "cursoId",
+                  "value": "{{cursoId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar aluno (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cadastrar aluno com e-mail repetido (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alunos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Ana Cópia\",\n  \"email\": \"ana{{sufixo}}@email.com\",\n  \"ra\": \"RB{{sufixo}}\",\n  \"dataNascimento\": \"2004-05-10\",\n  \"cursoId\": {{cursoId}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Matrículas",
+      "description": "",
+      "item": [
+        {
+          "name": "Matricular aluno na turma (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"matriculaId\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/matriculas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matriculas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"alunoId\": {{alunoId}},\n  \"turmaId\": {{turmaId}},\n  \"dataMatricula\": \"2026-08-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Matricular de novo na mesma turma (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/matriculas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matriculas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"alunoId\": {{alunoId}},\n  \"turmaId\": {{turmaId}},\n  \"dataMatricula\": \"2026-08-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Matrículas do aluno (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/matriculas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "matriculas"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Notas",
+      "description": "",
+      "item": [
+        {
+          "name": "Lançar nota (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"notaId\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"matriculaId\": {{matriculaId}},\n  \"descricao\": \"Prova 1\",\n  \"valor\": 8.5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Lançar nota inválida (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/notas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notas"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"matriculaId\": {{matriculaId}},\n  \"descricao\": \"Prova 2\",\n  \"valor\": 11\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Boletim do aluno (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/boletim",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "boletim"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. CEP - API externa ViaCEP",
+      "description": "Consulta direta ao ViaCEP pela nossa API. Para mostrar o 502: desligue a internet e envie 'Consultar CEP (200)'.",
+      "item": [
+        {
+          "name": "Consultar CEP (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cep/01001000",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cep",
+                "01001000"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar CEP com traço (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cep/01001-000",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cep",
+                "01001-000"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar CEP inválido (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cep/123",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cep",
+                "123"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar CEP inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cep/99999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cep",
+                "99999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. Endereço do aluno (dados do ViaCEP)",
+      "description": "O cliente manda só CEP, número e complemento; logradouro, bairro, cidade e UF vêm do ViaCEP.",
+      "item": [
+        {
+          "name": "Cadastrar endereço (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cep\": \"01001000\",\n  \"numero\": \"100\",\n  \"complemento\": \"Apto 12\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Buscar endereço (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cadastrar endereço de novo (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cep\": \"01001000\",\n  \"numero\": \"100\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Alterar endereço (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cep\": \"20040020\",\n  \"numero\": \"50\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Alterar com dados inválidos (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cep\": \"123\",\n  \"numero\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Alterar com CEP inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cep\": \"99999999\",\n  \"numero\": \"10\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Remover endereço (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar endereço removido (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}",
+                "endereco"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Endereço de aluno inexistente (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/999999/endereco",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "999999",
+                "endereco"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Remoções (DELETE)",
+      "description": "Ordem importa: a API bloqueia (409) remover algo que ainda tem registros ligados.",
+      "item": [
+        {
+          "name": "Remover curso com alunos vinculados (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cursos/{{cursoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cursos",
+                "{{cursoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remover nota (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/notas/{{notaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notas",
+                "{{notaId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remover matrícula (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/matriculas/{{matriculaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matriculas",
+                "{{matriculaId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remover turma (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/turmas/{{turmaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "turmas",
+                "{{turmaId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remover professor (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/professores/{{professorId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "professores",
+                "{{professorId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remover disciplina (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/disciplinas/{{disciplinaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "disciplinas",
+                "{{disciplinaId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remover aluno (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/alunos/{{alunoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "alunos",
+                "{{alunoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remover curso (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cursos/{{cursoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cursos",
+                "{{cursoId}}"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
