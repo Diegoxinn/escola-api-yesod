@@ -16,7 +16,6 @@ import Data.Aeson (withObject, (.:), (.:?))
 import qualified Data.Text as T
 
 -- | Corpo JSON aceito no POST e no PUT. Exemplo:
--- { "cep": "01001000", "numero": "100", "complemento": "Apto 12" }
 data EnderecoEntrada = EnderecoEntrada
     { entradaCep         :: Text
     , entradaNumero      :: Text
@@ -75,8 +74,8 @@ montarEndereco :: AlunoId -> EnderecoEntrada -> Handler Endereco
 montarEndereco alunoId entrada = do
     resultado <- buscarCep (entradaCep entrada)
     case resultado of
-        Nothing     -> erroJson status404 "CEP não encontrado"
-        Just viaCep -> return Endereco
+        Left falha   -> responderErroViaCep falha
+        Right viaCep -> return Endereco
             { enderecoAlunoId     = alunoId
             , enderecoCep         = viaCepCep viaCep
             , enderecoLogradouro  = viaCepLogradouro viaCep
@@ -103,8 +102,8 @@ validarEntrada :: EnderecoEntrada -> Handler ()
 validarEntrada entrada = do
     let erros :: [Text]
         erros =
-            [ "O CEP é obrigatório"
-            | T.null (limparCep (entradaCep entrada)) ]
+            [ "O CEP deve ter 8 dígitos"
+            | T.length (limparCep (entradaCep entrada)) /= 8 ]
             ++
             [ "O número é obrigatório"
             | T.null (T.strip (entradaNumero entrada)) ]
