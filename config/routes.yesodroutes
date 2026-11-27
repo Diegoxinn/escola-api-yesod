@@ -15,3 +15,6 @@
 
 -- Consulta de CEP na API externa ViaCEP
 /cep/#Text   CepR   GET
+
+-- Endereço do aluno, preenchido com dados do ViaCEP
+/alunos/#AlunoId/endereco  EnderecoR  GET POST PUT DELETE
