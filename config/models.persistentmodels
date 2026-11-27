@@ -54,3 +54,15 @@ Nota json
     descricao Text
     valor Double
     deriving Show
+
+Endereco json
+    alunoId AlunoId OnDeleteCascade
+    cep Text
+    logradouro Text
+    numero Text
+    complemento Text Maybe
+    bairro Text
+    cidade Text
+    uf Text
+    UniqueEnderecoAluno alunoId
+    deriving Show

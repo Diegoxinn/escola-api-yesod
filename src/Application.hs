@@ -43,6 +43,8 @@ import System.Log.FastLogger                (defaultBufSize, newStdoutLoggerSet,
 import Handler.Common
 import Handler.Home
 import Handler.Curso
+import Handler.Cep
+import Handler.Endereco
 import Handler.Aluno
 import Handler.Matricula
 import Handler.Nota

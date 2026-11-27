@@ -13,6 +13,11 @@
 /cursos            CursosR GET POST
 /cursos/#CursoId   CursoR  GET PUT DELETE
 
+-- Consulta de CEP na API externa ViaCEP
+/cep/#Text   CepR   GET
+
+-- Endereço do aluno, preenchido com dados do ViaCEP
+/alunos/#AlunoId/endereco  EnderecoR  GET POST PUT DELETE
 -- Alunos
 /alunos            AlunosR GET POST
 /alunos/#AlunoId   AlunoR  GET PUT DELETE
