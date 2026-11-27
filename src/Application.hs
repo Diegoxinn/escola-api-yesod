@@ -45,6 +45,12 @@ import Handler.Home
 import Handler.Curso
 import Handler.Cep
 import Handler.Endereco
+import Handler.Aluno
+import Handler.Matricula
+import Handler.Nota
+import Handler.Professor
+import Handler.Disciplina
+import Handler.Turma
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the
